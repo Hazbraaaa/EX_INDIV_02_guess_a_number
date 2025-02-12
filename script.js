@@ -1,5 +1,5 @@
-function giveMeANumber() {
-    return Number(prompt("Quel nombre à disparu BABOUCHE ?"));
+function giveNb() {
+    return document.querySelector('#numberTried').value;
 }
 
 function whatToGuess() {
@@ -25,27 +25,41 @@ function didIWin(num1, num2) {
     return false;
 }
 
-function gamePlay() {
-    let flag = false;
-    let attempt = 1;
-    let numToFind = whatToGuess();
-
-    while (!flag && attempt <= 5) {
-        alert(`Tentative n°${attempt}`);
-        let givenNumber = giveMeANumber();
-        let result = didIWin(givenNumber, numToFind);
-
-        if (result) {
-            flag = true;
-            document.querySelector('#info').innerHTML = "Et c'est gagné, c'est gagné ! We did it ! Hourra !";
-            document.querySelector('#attempt').innerHTML = `Il t'a fallu ${attempt} tentatives !`;
-        }
-        attempt++;
-        if (attempt == 6 && !flag) {
-            document.querySelector('#info').innerHTML = `Abandonne Nullos !`;
-        }
+function gamePlay(numToFind) {
+    let givenNumber = giveNb();
+    let result = didIWin(givenNumber, numToFind);
+    if (result) {
+        document.querySelector('#info').innerHTML = "ET C'EST GAGNE ! C'EST GAGNE, C'EST GAGNE ! WE DID IT ! HOURRA !";
     }
+    return givenNumber;
 }
 
-let play = document.querySelector('#play');
-play.addEventListener("click", gamePlay);
+let check = document.querySelector('#check');
+let numToFind = whatToGuess();
+let attempt = 1;
+let min = 0;
+let max = 50;
+document.querySelector('#info').innerHTML = `Can you help me? Chipeur a volé un nombre entre ${min} et ${max}`;
+
+check.addEventListener("click", () => {
+    if (document.querySelector('#info').innerHTML != "ET C'EST GAGNE ! C'EST GAGNE, C'EST GAGNE ! WE DID IT ! HOURRA !") {
+        document.querySelector('#attempt').innerHTML = `Vous avez fait  ${attempt} tentative(s)`;
+        let result = gamePlay(numToFind);
+        if (result <= min || result >= max) {
+            alert("Sérieusement ? Regarde l'intervalle bon sang !");
+            return; 
+        }
+        if (min < result && result < numToFind) {
+            min = result;
+            document.querySelector('#info').innerHTML = `Can you help me? Chipeur a volé un nombre entre ${min} et ${max}`;   
+        }
+        else if (numToFind < result && result < max) {
+            max = result;
+            document.querySelector('#info').innerHTML = `Can you help me? Chipeur a volé un nombre entre ${min} et ${max}`;   
+        }
+        attempt++;
+    }
+    else {
+        alert("T'as gagné poto, recharge la page si tu veux rejouer !")
+    }
+}); 
