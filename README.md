@@ -12,4 +12,5 @@
 
 ## ✅ Fonctionnalités
 
-- ✅ Utiliser les commandes de base de GIT
+- ✅ Faire une proposition de nombre
+- ✅ Annoncer si c'est plus ou moins
