@@ -1,4 +1,4 @@
-# 🧠 Mastermind
+# 🧠 Guess A Number
 
 > Deviner un nombre compris dans une fourchette.
 
